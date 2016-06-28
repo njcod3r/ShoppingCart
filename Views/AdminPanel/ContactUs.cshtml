@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/angular-file-upload.min.js"></script>
+<script src="~/Scripts/AdminPanel/adminPanelController.js"></script>
+
+<div class="tray tray-center" ng-controller="adminPanelContactInfo" style="height:1024px">
+    <div class="panel mb25 mt5">
+        <div class="panel-heading">
+            <span class="panel-title hidden-xs" style="font-size: 20px">Contact Us</span>
+        </div>
+        <div class="panel-body p20 pb10">
+            <div class="admin-form">
+                <form name="formContact">
+                    <div class="row">
+                        <div class="alert alert-danger" data-ng-hide="contactErrorMsg">
+                            <strong>Danger!</strong> Save Error Try Again.
+                        </div>
+                        <div class="alert alert-success" data-ng-hide="contactSuccessMsg">
+                            <strong>Success!</strong> Your Data Saved.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section">
+                                <label class="field-label">Contact Phone</label>
+                                <input type="text" data-ng-model="contactInfo.ContactPhone" class="gui-input" placeholder="Contact Phone" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section">
+                                <label class="field-label">Contact Address</label>
+                                <input type="text" data-ng-model="contactInfo.ContactAddress" class=" gui-input" placeholder="Contact Address" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section">
+                                <label class="field-label">Contact Email</label>
+                                <input type="text" data-ng-model="contactInfo.ContactEmail" class="gui-input" placeholder="Contact Email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section">
+                                <label class="field-label">Ad Url</label>
+                                <input type="text" data-ng-model="contactInfo.AdUrl" class=" gui-input" placeholder="Ad Url" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="section">
+                                <button type="button" data-ng-click="updateContact(contactInfo)"  class=" gui-input" />Save
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

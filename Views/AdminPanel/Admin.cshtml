@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/angular-file-upload.min.js"></script>
+<script src="~/Scripts/AdminPanel/adminPanelController.js"></script>
+
+<div class="tray tray-center" data-ng-controller="adminPanelShopListCtrl" style="height:1024px">
+    <div class="panel mb25 mt5">
+        <div class="panel-body p20 pb10">
+            <div class="admin-form">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" placeholder="Search By Title" class="gui-input" ng-model="shopFilter" />
+                    </div>
+                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal" ng-click="isupdate=false;shopForm.shopTitle.$dirty=false;shopForm.shopAddress.$dirty=false;shopForm.categoryTitle.$dirty=false;shopForm.cardDiscountPercentage.$dirty=false;">Create New Shop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel mb25 mt5">
+        <div class="panel-heading">
+            <span class="panel-title hidden-xs" style="font-size: 20px">Shop List</span>
+        </div>
+        <div class="panel-body p20 pb10">
+            <div class="admin-form">
+                <form name="myForm">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                Image1
+                            </td>
+
+                            <td>
+                                Image2
+                            </td>
+
+                            <td>
+                                Image3
+                            </td>
+
+                            <td>
+                                Image4
+                            </td>
+
+                            <td>
+                                Shop Title
+                            </td>
+                            <td>
+                                Category
+                            </td>
+                            <td>
+                                Discount
+                            </td>
+                            <td>
+                                Active
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr data-ng-repeat="shp in shopList | filter:shopFilter">
+                            <td>
+                                <img class="img-thumbnail" width="128" height="128" data-ng-src='{{shp.ShopImage}}' />
+                            </td>
+
+                            <td>
+                                <img class="img-thumbnail" width="128" height="128" data-ng-src='{{shp.ShopImage1}}' />
+                            </td>
+
+                            <td>
+                                <img class="img-thumbnail" width="128" height="128" data-ng-src='{{shp.ShopImage2}}' />
+                            </td>
+
+                            <td>
+                                <img class="img-thumbnail" width="128" height="128" data-ng-src='{{shp.ShopImage3}}' />
+                            </td>
+
+
+                            <td>
+                                {{shp.ShopTitle}}
+                            </td>
+                            <td>
+                                {{shp.CategoryTitle}}
+                            </td>
+                            <td>
+                                {{shp.CardDiscountPercentage}}%
+                            </td>
+                            <td>
+                                {{shp.IsActive | true_false}}
+                            </td>
+
+                            <td>
+                                <input type="button" id="Edit" value="Edit" data-ng-click="selectShop(shp);" class="btn btn-default" data-toggle="modal" data-target="#modal" />
+                            </td>
+
+                            <td>
+                                <input type="button" id="Delete" value="Active/DeActive" class="btn btn-danger" data-ng-click="deleteShop(shp)" />
+                            </td>                      
+                        </tr>
+                    </table>
+                    <br />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="container-fluid">
+                        <h4 class="modal-title" id="myModalLabel">Shop</h4>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form name="shopForm">
+                                <div class="row">
+                                    <div class="alert alert-danger" data-ng-hide="shopErrorMsg">
+                                        <strong>Danger!</strong> Save Error Try Again.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <input type="file" ng-file-select="" ng-model="file" name="file" accept="image/*" class=" form-control" onchange="angular.element(this).scope().selectFileforUpload(this.files)" />
+                                    <span></span>
+
+                                    <label>Image 2</label>
+                                    <input type="file" ng-file-select="" ng-model="file1" name="file1" accept="image/*" class=" form-control" onchange="angular.element(this).scope().selectFileforUpload1(this.files)" />
+                                    <span></span>
+
+                                    <label>Image 3</label>
+                                    <input type="file" ng-file-select="" ng-model="file2" name="file2" accept="image/*" class=" form-control" onchange="angular.element(this).scope().selectFileforUpload2(this.files)" />
+                                    <span></span>
+
+                                    <label>Image 4</label>
+                                    <input type="file" ng-file-select="" ng-model="file3" name="file3" accept="image/*" class=" form-control" onchange="angular.element(this).scope().selectFileforUpload3(this.files)" />
+                                    <span></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Shop Title</label>
+                                    <input type="text" class="form-control" name="shopTitle" data-ng-model="shop.ShopTitle" data-ng-required="true" data-ng-change="shopForm.shopTitle.$dirty=true" />
+                                    <span ng-show="shopForm.shopTitle.$dirty && shopForm.shopTitle.$error.required" class="text-danger">Enter Shop</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Shop Address</label>
+                                    <input type="text" class="form-control" name="shopAddress" data-ng-model="shop.ShopAddress" data-ng-required="true" data-ng-change="shopForm.shopAddress.$dirty=true" />
+                                    <span ng-show="shopForm.shopAddress.$dirty && shopForm.shopAddress.$error.required" class="text-danger">Enter Shop Address</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Shop Description</label>
+                                    <textarea  class="form-control textarea" name="shopDescription" data-ng-model="shop.ShopDescription" ></textarea>
+                                    <span></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Shop Category</label>
+                                    <select class="form-control" name="categoryTitle" data-ng-model="shop.CategoryId" data-ng-options="item.CategoryId as item.CategoryTitle for item in categories" data-ng-required="true" data-ng-change="shopForm.categoryTitle.$dirty=true">
+                                        <option value="">Select Category</option>
+                                    </select>
+                                    <span ng-show="shopForm.categoryTitle.$dirty && shopForm.categoryTitle.$error.required" class="text-danger">Select Category</span>
+                                </div>
+                                <div class="form-group">
+                                 <input type="hidden"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Discount</label>
+                                    <input type="number" class="form-control" name="cardDiscountPercentage" data-ng-model="shop.CardDiscountPercentage" ng-maxlength="3" ng-required="true" data-ng-change="shopForm.cardDiscountPercentage.$dirty=true" />
+                                    <span ng-show="shopForm.cardDiscountPercentage.$dirty && shopForm.cardDiscountPercentage.$invalid" class="text-danger">Enter Discount % between 0 to 100</span>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-ng-click="cancel()"><i class="fa fa-close"></i> Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-disabled="shopForm.$invalid" data-ng-click="createShop(shop);upload(file);upload(file1);upload(file2);upload(file3);isupdate=false;"><i class="fa fa-check"></i>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

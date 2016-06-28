@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/angular-file-upload.min.js"></script>
+<script src="~/Scripts/AdminPanel/adminPanelController.js"></script>
+
+<div data-ng-controller="adminPanelCategoryListCtrl" data-dismiss="modal">
+    <div class="tray tray-center">
+        <div class="panel mb25 mt5">
+            <div class="panel-body p20 pb10">
+                <div class="admin-form">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Search By Title" class="gui-input" ng-model="categoryFilter.CategoryTitle" />
+                        </div>
+                        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal" ng-click="isupdate=false;categoryForm.categoryTitle.$dirty=false;">Create New Category</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel mb25 mt5">
+            <div class="panel-heading">
+                <span class="panel-title hidden-xs" style="font-size: 20px">Category List</span>
+            </div>
+            <div class="panel-body p20 pb10">
+                <div class="admin-form">
+                    <form name="myForm">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    Image
+                                </td>
+                                <td>
+                                    Category Title
+                                </td>
+                                <td>
+                                    Active
+                                </td>
+
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr data-ng-repeat="cat in categoryList | filter:categoryFilter">
+                                <td>
+                                    <img class="img-thumbnail" width="128" height="128" data-ng-src='{{cat.CategoryImage}}' />
+                                </td>
+                                <td>
+                                    {{cat.CategoryTitle}}
+                                </td>
+                                <td>
+                                    {{cat.IsActive | true_false}}
+                                </td>
+
+                                <td>
+                                    <input type="button" id="Edit" value="Edit" data-ng-click="selectCategory(cat);" class="btn btn-default" data-toggle="modal" data-target="#modal" />
+                                </td>
+
+                                <td>
+                                    <input type="button" id="Delete" value="Active/DeActive" class="btn btn-danger" data-ng-click="deleteCategory(cat)" />
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="container-fluid">
+                        <h4 class="modal-title" id="myModalLabel">Category</h4>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form name="categoryForm">
+                                <div class="row">
+                                    <div class="alert alert-danger" data-ng-hide="categoryErrorMsg">
+                                        <strong>Danger!</strong> Save Error Try Again.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <input type="file" ng-file-select="" ng-model="file" name="file" accept="image/*" class=" form-control" onchange="angular.element(this).scope().selectFileforUpload(this.files)" />
+
+                                    <span></span>
+                                </div>
+
+                                @*<div class="form-group">
+                                        <label>Language</label>
+                                        <select class="form-control" name="categoryLanguage" data-ng-model="" />
+                                        <span></span>
+                                    </div>*@
+
+                                <div class="form-group">
+                                    <label>Category Title</label>
+                                    <input type="text" class="form-control" name="categoryTitle" data-ng-model="category.CategoryTitle"  ng-required="true" ng-change="categoryForm.categoryTitle.$dirty=true" />
+                                    <span ng-show="categoryForm.categoryTitle.$dirty && categoryForm.categoryTitle.$error.required" class="text-danger">Enter Category</span>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-ng-click="cancel()"><i class="fa fa-close"></i> Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-disabled="categoryForm.$invalid" data-ng-click="upload(file);createCategory(category);isupdate=false;"><i class="fa fa-check"></i>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
